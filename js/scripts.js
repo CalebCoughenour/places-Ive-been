@@ -6,15 +6,24 @@ function Place(location, activity, date, landmarks, notes) {
   this.notes = notes;
 }
 
-
+function toggleVisible() {
+  $(this).next().toggleClass("hidden");
+}
 
 function createList(place) {
   let list = $("<ul></ul>");
+  let div = $("<div class='hidden'></div>");
 
   for (const property in place) {
-    list.append($("<li>" + place[property] + "</li>"));
+    if (property === "location") {
+      let location = $("<li>" + place[property] + "</li>");
+      location.click(toggleVisible);
+      list.append(location);
+    } else {
+      div.append($("<li>" + place[property] + "</li>"));
+    }
   }
-  return list;
+  return list.append(div);
 }
 
 $(document).ready(function() {
@@ -29,35 +38,5 @@ $(document).ready(function() {
     let newPlace = new Place(location, activity, date, landmarks, notes);
     const listedPlace = createList(newPlace);
     $(".places-display").append(listedPlace);
-
-  })
-});
-
- 
-
-
-
-/*
-$(document).ready(function() {
-    $("form").submit(function(event) {
-      event.preventDefault();
-      const valueOne = $("#thing1").val();
-      const valueTwo = $("#thing2").val();
-      const valueThree = $("#thing3").val();
-
-      const newArray = [valueOne, valueTwo, valueThree];
-      const newArray2 = [];
-      newArray2.push(newArray[1]);
-      newArray2.push(newArray[0]);
-      newArray2.push(newArray[2]);
-      
-      let list = $("<ul></ul>");
-      list.append($("<li>" + newArray2[0] + "</li>"));
-      list.append($("<li>" + newArray2[1] + "</li>"));
-      list.append($("<li>" + newArray2[2] + "</li>"));
-      
-      //$("#fav-list").text("");
-      $("#fav-list").append(list);
-    });
   });
-*/
+});
