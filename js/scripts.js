@@ -1,9 +1,20 @@
-function Place(location, activity, date, notes, landmarks) {
+function Place(location, activity, date, landmarks, notes) {
   this.location = location;
   this.activity = activity;
   this.date = date;
   this.landmarks = landmarks;
   this.notes = notes;
+}
+
+
+
+function createList(place) {
+  let list = $("<ul></ul>");
+
+  for (const property in place) {
+    list.append($("<li>" + place[property] + "</li>"));
+  }
+  return list;
 }
 
 $(document).ready(function() {
@@ -14,6 +25,11 @@ $(document).ready(function() {
     const date = $("#date").val();
     const landmarks = $("#landmarks").val();
     const notes = $("#notes").val();
+
+    let newPlace = new Place(location, activity, date, landmarks, notes);
+    const listedPlace = createList(newPlace);
+    $(".places-display").append(listedPlace);
+
   })
 });
 
